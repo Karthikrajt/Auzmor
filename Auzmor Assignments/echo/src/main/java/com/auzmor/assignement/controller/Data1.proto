@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+option java_package = "com.auzmor.assignement.controller";
+option java_multiple_files = true;
+option java_outer_classname = "Messages";
+
+message Person {
+    required string name = 1;
+    required Gender gender = 2;
+    optional sint32 age = 3;
+
+    enum Gender {
+        MALE = 1;
+        FEMALE = 2;
+    }
+}
