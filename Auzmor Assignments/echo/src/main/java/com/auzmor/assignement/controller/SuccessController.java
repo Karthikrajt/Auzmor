@@ -3,7 +3,6 @@ package com.auzmor.assignement.controller;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
-
 import org.restexpress.Request;
 import org.restexpress.Response;
 import kafka.javaapi.producer.Producer;
@@ -28,17 +27,20 @@ extends AbstractDelayingController
 	{
 		long delayms = delay(request);
 		String message = request.getHeader("JSON");
-		
+		Person person2 = null;
 		try
 		{
 		
 			try
 			{
-		Person.Builder personBuilder = Person.newBuilder();
-		com.googlecode.protobuf.format.JsonFormat.merge(message, personBuilder);
+				
+				Person.Builder personBuilder = Person.newBuilder();
+				com.googlecode.protobuf.format.JsonFormat.merge(message, personBuilder);
 
-		Person person2 = personBuilder.build();
-			}
+				 person2 = personBuilder.build();
+				 
+				 message = person2.toString();
+				}
 			catch(Exception e)
 			{
 				message = "Json is not matching with protobuff ";
@@ -54,7 +56,7 @@ extends AbstractDelayingController
         ProducerConfig config = new ProducerConfig(props);
  
         Producer<String, String> producer = new Producer<String, String>(config);
-        KeyedMessage<String, String> data = new KeyedMessage<String, String>("Data", person2);
+        KeyedMessage<String, String> data = new KeyedMessage<String, String>("Data", person2.toString());
          producer.send(data);
         
         producer.close();
